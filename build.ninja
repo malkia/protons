@@ -1,0 +1,28 @@
+gendir = protos_gen
+
+rule protoc_cpp
+  command = protoc --proto_path=. -o$gendir/$in.bin --cpp_out=$gendir --grpc_out=$gendir --plugin=protoc-gen-grpc=/usr/bin/grpc_cpp_plugin $in
+
+rule protoc_csharp
+  command = protoc --proto_path=. --csharp_out=$gendir/$dir --grpc_out=$gendir/$dir --plugin=protoc-gen-grpc=/usr/bin/grpc_csharp_plugin $in
+
+build $gendir/$dir/$file.pb.cc $
+      $gendir/$dir/$file.pb.h $
+      $gendir/$dir/$file.grpc.pb.cc $
+      $gendir/$dir/$file.grpc.pb.h $
+      $gendir/$dir/$file.proto.bin: protoc_cpp $dir/$file.proto
+ dir = common
+ file = Math
+
+build $gendir/$dir/$file.cs $gendir/$dir/${file}Grpc.cs: protoc_csharp $dir/$file.proto
+ dir = common
+ file = Math
+
+build $gendir/$dir/$file.pb.cc $gendir/$dir/$file.pb.h $gendir/$dir/$file.grpc.pb.cc $gendir/$dir/$file.grpc.pb.h $gendir/$dir/$file.proto.bin: protoc_cpp $dir/$file.proto
+ dir = editor/panes
+ file = CameraWindow
+
+build $gendir/$dir/$file.cs $gendir/$dir/${file}Grpc.cs: protoc_csharp $dir/$file.proto
+ dir = editor/panes
+ file = CameraWindow
+

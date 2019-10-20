@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+import "common/Math.proto";
+
+message LookAtArgs {
+    Orientation orientation = 1;
+}
+
+message LookAtResult {
+}
+
+service Dummy{}
